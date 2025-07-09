@@ -7,7 +7,7 @@
     <!-- A-Frame core -->
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
 
-    <!-- AR.js for markerless AR -->
+    <!-- AR.js for A-Frame -->
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar-nft.js"></script>
 
     <!-- Touch gesture component for drag/scale -->
@@ -37,10 +37,9 @@
         gesture-handler
       ></a-entity>
 
-      <!-- Load your burger.glb -->
+      <!-- Load your burger.glb from /assets -->
       <a-assets>
-        <!-- If your burger.glb is still in root: -->
-        <a-asset-item id="burgerModel" src="burger.glb"></a-asset-item>
+        <a-asset-item id="burgerModel" src="assets/burger.glb"></a-asset-item>
       </a-assets>
 
       <!-- Camera -->
