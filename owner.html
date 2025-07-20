@@ -362,29 +362,7 @@
     <button class="nav-button" id="logoutBtn">⏏️<br>Logout</button>
   </nav>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-    import { getDatabase, ref, onValue, get, push, update, remove } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyATGDe4NI75RSny4ZbE3WDtaUoUivjv3E8",
-      authDomain: "digital-menu-wooden.firebaseapp.com",
-      databaseURL: "https://digital-menu-wooden-default-rtdb.firebaseio.com",
-      projectId: "digital-menu-wooden",
-      storageBucket: "digital-menu-wooden",
-      messagingSenderId: "776717051891",
-      appId: "1:776717051891:web:c52bc347ba84434e839486",
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const auth = getAuth();
-
-    onAuthStateChanged(auth, user => {
-      if (!user) window.location.href = 'login.html';
-    });
-
+  
     // NAVIGATION
     const sections = document.querySelectorAll('.section');
     const navButtons = document.querySelectorAll('.nav-button');
@@ -410,7 +388,32 @@
         }
       });
     });
+<script type="module">
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
+import { getDatabase, ref, onValue, get, push, update, remove } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 
+// ✅ NEW CONFIG from firebase.js.txt
+const firebaseConfig = {
+  apiKey: "AIzaSyAvOLYaDb6pQqd4CZDfsWWsvKWDExWJ8A4",
+  authDomain: "kholme-menu1.firebaseapp.com",
+  databaseURL: "https://kholme-menu1-default-rtdb.firebaseio.com",
+  projectId: "kholme-menu1",
+  storageBucket: "kholme-menu1.firebasestorage.app",
+  messagingSenderId: "434798935284",
+  appId: "1:434798935284:web:527ae90b4d4833a30ff2a1",
+  measurementId: "G-9XG8BZ9YXK"
+};
+
+// ✅ Initialize Firebase with new config
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const db = getDatabase(app);
+const auth = getAuth();
+
+// From here, KEEP THE REST OF YOUR SCRIPT UNCHANGED...
     // ====== SALES SECTION LOGIC ======
 
     const ordersRef = ref(db, 'completedOrders');
