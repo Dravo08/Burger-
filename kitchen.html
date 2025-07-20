@@ -124,79 +124,81 @@
     <div id="btnHistory" class="nav-button" title="History">📜 History</div>
   </div>
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-    import {
-      getDatabase,
-      ref,
-      onChildAdded,
-      onChildRemoved,
-      onChildChanged,
-      set,
-      remove,
-      update
-    } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
-    import {
-      getAuth,
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+  import {
+    getDatabase,
+    ref,
+    onChildAdded,
+    onChildRemoved,
+    onChildChanged,
+    set,
+    remove,
+    update
+  } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyATGDe4NI75RSny4ZbE3WDtaUoUivjv3E8",
-      authDomain: "digital-menu-wooden.firebaseapp.com",
-      databaseURL: "https://digital-menu-wooden-default-rtdb.firebaseio.com",
-      projectId: "digital-menu-wooden",
-      storageBucket: "digital-menu-wooden.firebasestorage.app",
-      messagingSenderId: "776717051891",
-      appId: "1:776717051891:web:c52bc347ba84434e839486"
-    };
+  // ✅ KHOLME PROJECT CONFIG
+  const firebaseConfig = {
+    apiKey: "AIzaSyAvOLYaDb6pQqd4CZDfsWWsvKWDExWJ8A4",
+    authDomain: "kholme-menu1.firebaseapp.com",
+    databaseURL: "https://kholme-menu1-default-rtdb.firebaseio.com",
+    projectId: "kholme-menu1",
+    storageBucket: "kholme-menu1.firebasestorage.app",
+    messagingSenderId: "434798935284",
+    appId: "1:434798935284:web:527ae90b4d4833a30ff2a1",
+    measurementId: "G-9XG8BZ9YXK"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const auth = getAuth();
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const auth = getAuth();
 
-    const ordersRef = ref(db, 'orders');
-    const completedRef = ref(db, 'completedOrders');
+  const ordersRef = ref(db, 'orders');
+  const completedRef = ref(db, 'completedOrders');
 
-    const ordersDiv = document.getElementById('orders');
-    const historyDiv = document.getElementById('history');
-    const logoutBtn = document.getElementById('logout');
+  const ordersDiv = document.getElementById('orders');
+  const historyDiv = document.getElementById('history');
+  const logoutBtn = document.getElementById('logout');
 
-    logoutBtn.addEventListener('click', () => {
-      signOut(auth).then(() => {
-        window.location.href = 'kitchen-login.html';
-      });
+  logoutBtn.addEventListener('click', () => {
+    signOut(auth).then(() => {
+      window.location.href = 'kitchen-login.html';
     });
+  });
 
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = "kitchen-login.html";
-      }
-    });
-
-    function formatItems(items) {
-      return items.map(i => {
-        const qty = i.quantity || 1;
-        const pricePer = i.price || 0;
-        const total = qty * pricePer;
-        return `${i.name || "Unnamed"} / Qty: ${qty} / Rs.${pricePer} each / Total: Rs.${total}`;
-      }).join('\n');
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      window.location.href = "kitchen-login.html";
     }
+  });
 
-    function createOrderCard(order, key, showStatusButtons = true) {
-      let orderName = order.name || (order.items && order.items.length > 0 && order.items[0].name) || "Unnamed Item";
+  function formatItems(items) {
+    return items.map(i => {
+      const qty = i.quantity || 1;
+      const pricePer = i.price || 0;
+      const total = qty * pricePer;
+      return `${i.name || "Unnamed"} / Qty: ${qty} / Rs.${pricePer} each / Total: Rs.${total}`;
+    }).join('\n');
+  }
 
-      let priceDisplay = '';
-      if (order.status === 'cancelled') {
-        priceDisplay = `<strong style="color:red;">❌ Cancelled:</strong> ${order.note || ''}`;
-      } else if (order.price) {
-        priceDisplay = `Price: Rs. ${order.price}`;
-      } else if (order.items && order.items.length > 0) {
-        const totalPrice = order.items.reduce((sum, i) => sum + ((i.price || 0) * (i.quantity || 1)), 0);
-        priceDisplay = `Total Price: Rs. ${totalPrice}\nDetails:\n${formatItems(order.items)}`;
-      } else {
-        priceDisplay = "Price: N/A";
-      }
+  function createOrderCard(order, key, showStatusButtons = true) {
+    let orderName = order.name || (order.items && order.items.length > 0 && order.items[0].name) || "Unnamed Item";
+
+    let priceDisplay = '';
+    if (order.status === 'cancelled') {
+      priceDisplay = `<strong style="color:red;">❌ Cancelled:</strong> ${order.note || ''}`;
+    } else if (order.price) {
+      priceDisplay = `Price: Rs. ${order.price}`;
+    } else if (order.items && order.items.length > 0) {
+      const totalPrice = order.items.reduce((sum, i) => sum + ((i.price || 0) * (i.quantity || 1)), 0);
+      priceDisplay = `Total Price: Rs. ${totalPrice}\nDetails:\n${formatItems(order.items)}`;
+    } else {
+      priceDisplay = "Price: N/A";
+    }
 
       const time = new Date(order.timestamp).toLocaleTimeString();
       const tableNumber = order.table || order.tableNumber || 'N/A';
